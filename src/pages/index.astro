@@ -1,0 +1,21 @@
+---
+import '../styles/global.css';
+import { Button } from "@/components/ui/button";
+---
+
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Offensive Web</title>
+	</head>
+	<body>
+		<div class="container mx-auto p-8">
+			<h1 class="text-4xl font-bold mb-4">Welcome to Offensive Web</h1>
+			<p class="mb-6">Your go-to resource for offensive web security techniques and tools.</p>
+			<Button client:load>Click Me</Button>
+		</div>
+	</body>
+</html>
