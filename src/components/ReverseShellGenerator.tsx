@@ -7,8 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Check } from "lucide-react";
 
 export function ReverseShellGenerator() {
-  const [host, setHost] = useState("");
-  const [port, setPort] = useState("");
+  const [host, setHost] = useState("10.10.10.10");
+  const [port, setPort] = useState("4444");
   const [copied, setCopied] = useState<string | null>(null);
 
   const shells = {
