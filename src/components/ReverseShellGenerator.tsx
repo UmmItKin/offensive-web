@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Check } from "lucide-react";
+import { toast } from "sonner";
 
 export function ReverseShellGenerator() {
   const [host, setHost] = useState("10.10.10.10");
@@ -27,8 +28,14 @@ export function ReverseShellGenerator() {
       await navigator.clipboard.writeText(text);
       setCopied(type);
       setTimeout(() => setCopied(null), 2000);
+      toast.success("Copied to clipboard!", {
+        description: `${type.toUpperCase()} reverse shell payload`,
+      });
     } catch (err) {
       console.error("Failed to copy:", err);
+      toast.warning("Failed to copy to clipboard", {
+        description: "Please try again or copy manually",
+      });
     }
   };
 

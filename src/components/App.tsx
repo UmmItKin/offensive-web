@@ -3,6 +3,7 @@ import { AppLayout } from "./AppLayout";
 import { ReverseShellGenerator } from "./ReverseShellGenerator";
 import { UrlParameterInjection } from "./UrlParameterInjection";
 import { Footer } from "./Footer";
+import { Toaster } from "./ui/sonner";
 
 export function App() {
   const [currentSection, setCurrentSection] = useState("reverse-shell");
@@ -34,6 +35,7 @@ export function App() {
         </div>
       </AppLayout>
       <Footer />
+      <Toaster position="bottom-right" />
     </div>
   );
 }
