@@ -29,6 +29,11 @@ const menuItems = [
     title: "URL Injection",
     icon: "mdi:web",
   },
+  {
+    id: "base64",
+    title: "Base64",
+    icon: "mdi:code-string",
+  },
 ];
 
 function SidebarContentWrapper({ currentSection, onSectionChange }: { currentSection: string; onSectionChange: (section: string) => void }) {
