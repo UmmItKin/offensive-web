@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Icon } from "@iconify/react";
 import {
   Sidebar,
@@ -11,32 +12,33 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
-interface AppLayoutProps {
+interface SidebarLayoutProps {
   children: React.ReactNode;
-  currentSection: string;
-  onSectionChange: (section: string) => void;
+  defaultOpen?: boolean;
+  currentPath: string;
 }
 
 const menuItems = [
   {
-    id: "reverse-shell",
+    href: "/reverse-shell",
     title: "Reverse Shell",
     icon: "mdi:console",
   },
   {
-    id: "url-injection",
+    href: "/url-injection",
     title: "URL Injection",
     icon: "mdi:web",
   },
   {
-    id: "base64",
+    href: "/base64",
     title: "Base64",
     icon: "mdi:code-string",
   },
 ];
 
-function SidebarContentWrapper({ currentSection, onSectionChange }: { currentSection: string; onSectionChange: (section: string) => void }) {
+function SidebarContentWrapper({ currentPath }: { currentPath: string }) {
   const { state } = useSidebar();
   
   return (
@@ -50,14 +52,16 @@ function SidebarContentWrapper({ currentSection, onSectionChange }: { currentSec
         <SidebarGroupContent>
           <SidebarMenu>
             {menuItems.map((item) => (
-              <SidebarMenuItem key={item.id}>
+              <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
-                  onClick={() => onSectionChange(item.id)}
-                  isActive={currentSection === item.id}
+                  asChild
+                  isActive={currentPath === item.href || (item.href === "/reverse-shell" && currentPath === "/")}
                   tooltip={item.title}
                 >
-                  <Icon icon={item.icon} className="w-5 h-5" />
-                  <span>{item.title}</span>
+                  <a href={item.href}>
+                    <Icon icon={item.icon} className="w-5 h-5" />
+                    <span>{item.title}</span>
+                  </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
@@ -68,22 +72,23 @@ function SidebarContentWrapper({ currentSection, onSectionChange }: { currentSec
   );
 }
 
-export function AppLayout({ children, currentSection, onSectionChange }: AppLayoutProps) {
+export function SidebarLayout({ children, defaultOpen = true, currentPath }: SidebarLayoutProps) {
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={defaultOpen}>
       <div className="flex min-h-screen w-full">
         <Sidebar collapsible="icon">
-          <SidebarContentWrapper currentSection={currentSection} onSectionChange={onSectionChange} />
+          <SidebarContentWrapper currentPath={currentPath} />
         </Sidebar>
-        <main className="flex-1 overflow-auto">
-          <div className="sticky top-0 z-10 bg-background border-b px-4 py-3">
+        <main className="flex-1 overflow-auto flex flex-col">
+          <div className="sticky top-0 z-10 bg-background border-b px-4 py-3 flex items-center gap-2">
             <SidebarTrigger />
           </div>
-          <div className="container mx-auto p-8">
+          <div className="container mx-auto p-8 flex-1">
             {children}
           </div>
         </main>
       </div>
+      <Toaster position="bottom-right" />
     </SidebarProvider>
   );
 }
