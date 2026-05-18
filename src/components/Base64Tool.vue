@@ -28,10 +28,10 @@ async function copyToClipboard() {
 </script>
 
 <template>
-  <div class="card w-full p-6 space-y-6">
+  <div class="w-full space-y-6">
     <div class="space-y-1">
-      <h1 class="text-2xl font-800 text-link">Base64 Encoder/Decoder</h1>
-      <p class="text-sm text-neutral-400">Encode or decode Base64 strings</p>
+      <h1 class="text-title">Base64 Encoder/Decoder</h1>
+      <p class="text-sm text-main op-70">Encode or decode Base64 strings</p>
     </div>
 
     <div class="space-y-2">
@@ -39,7 +39,7 @@ async function copyToClipboard() {
       <textarea
         id="input-area"
         v-model="input"
-        class="w-full min-h-[120px] px-3 py-2 rd-1 border border-neutral-700 bg-neutral-800 text-sm font-mono text-main placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors duration-200"
+        class="input min-h-30 py-2 font-mono"
         placeholder="Enter text to encode or Base64 to decode..."
       />
     </div>
@@ -52,10 +52,11 @@ async function copyToClipboard() {
     <div v-if="output" class="space-y-2">
       <label class="text-sm text-main">Output</label>
       <div class="relative">
-        <pre class="bg-hex-161b22 rd-1 p-4 text-sm font-mono whitespace-pre-wrap break-all min-h-[80px]">{{ output }}</pre>
+        <pre class="bg-hex-161b22 rd-1 p-4 text-sm font-mono text-main whitespace-pre-wrap break-all min-h-20 m-0">{{ output }}</pre>
         <button
           @click="copyToClipboard"
           class="absolute top-2 right-2 btn-ghost h-7 w-7 p-0"
+          aria-label="Copy"
         >
           <i v-if="copied" class="i-mdi-check text-green-500" />
           <i v-else class="i-mdi-content-copy" />

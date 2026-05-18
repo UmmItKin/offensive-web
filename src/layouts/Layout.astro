@@ -1,5 +1,6 @@
 ---
-import { ClientRouter } from 'astro:transitions';
+import { ClientRouter, fade } from 'astro:transitions';
+import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.astro';
 import '@/styles/global.css';
 
@@ -9,16 +10,6 @@ interface Props {
 
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
-
-const navItems = [
-  { href: '/reverse-shell', title: 'Reverse Shell' },
-  { href: '/url-injection', title: 'URL Injection' },
-  { href: '/base64', title: 'Base64' },
-];
-
-function isActive(href: string) {
-  return currentPath === href || (href === '/reverse-shell' && currentPath === '/');
-}
 ---
 
 <!doctype html>
@@ -32,23 +23,15 @@ function isActive(href: string) {
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body class="bg-main text-main min-h-screen font-sans">
-    <header class="z-40 w-full py-6 px-6 flex justify-between items-center">
-      <a href="/" class="font-bold text-xl text-link decoration-none">Offensive Web</a>
-      <nav class="flex items-center gap-x-6">
-        {navItems.map((item) => (
-          <a
-            href={item.href}
-            class={`text-link decoration-none cursor-pointer transition-opacity duration-200 ${isActive(item.href) ? 'opacity-100' : 'opacity-70 hover:opacity-100'}`}
-          >
-            {item.title}
-          </a>
-        ))}
-      </nav>
-    </header>
-    <main class="grow max-w-5xl mx-auto pt-10 pb-16 px-6">
+  <body class="bg-main text-main min-h-screen font-sans relative bg-dot flex flex-col">
+    <Header client:load currentPath={currentPath} />
+    <main
+      id="main-content"
+      class="grow w-full max-w-3xl mx-auto pt-10 pb-16 px-6 relative"
+      transition:animate={fade({ duration: '0.3s' })}
+    >
       <slot />
+      <Footer />
     </main>
-    <Footer />
   </body>
 </html>
