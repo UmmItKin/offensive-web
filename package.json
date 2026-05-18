@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "dependencies": {
     "@astrojs/vue": "^6.0.1",
-    "@iconify/vue": "^5.0.1",
+    "@fontsource/dm-mono": "^5.2.7",
+    "@fontsource/inter": "^5.2.8",
+    "@iconify/json": "^2.2.474",
     "@unocss/astro": "^66.6.8",
     "astro": "6.3.3",
     "unocss": "^66.6.8",

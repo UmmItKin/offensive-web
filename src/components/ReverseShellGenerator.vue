@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
 
 const host = ref('10.10.10.10')
 const port = ref('4444')
@@ -25,66 +24,49 @@ async function copyToClipboard(text: string, type: string) {
 </script>
 
 <template>
-  <div class="w-full max-w-4xl rounded-xl border bg-card text-card-foreground shadow-sm">
-    <div class="flex flex-col space-y-1.5 p-6">
-      <h3 class="text-2xl font-semibold leading-none tracking-tight">Reverse Shell Generator</h3>
-      <p class="text-sm text-muted-foreground">
-        Generate reverse shell payloads for various languages
-      </p>
+  <div class="card w-full p-6 space-y-6">
+    <div class="space-y-1">
+      <h1 class="text-2xl font-800 text-link">Reverse Shell Generator</h1>
+      <p class="text-sm text-neutral-400">Generate reverse shell payloads for various languages</p>
     </div>
-    <div class="p-6 pt-0 space-y-6">
-      <div class="grid grid-cols-2 gap-4">
-        <div class="space-y-2">
-          <label for="host" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Host/IP</label>
-          <input
-            id="host"
-            v-model="host"
-            type="text"
-            placeholder="10.10.10.10"
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          />
-        </div>
-        <div class="space-y-2">
-          <label for="port" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Port</label>
-          <input
-            id="port"
-            v-model="port"
-            type="text"
-            placeholder="4444"
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          />
-        </div>
-      </div>
 
-      <div class="w-full">
-        <div class="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground w-full grid-cols-4 grid">
-          <button
-            v-for="key in Object.keys(shells)"
-            :key="key"
-            @click="activeTab = key"
-            :class="[
-              'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-              activeTab === key ? 'bg-background text-foreground shadow-sm' : 'hover:bg-background/50 hover:text-foreground'
-            ]"
-          >
-            {{ key === 'bash' ? 'Bash' : key.toUpperCase() }}
-          </button>
-        </div>
-
-        <div v-for="(generator, key) in shells" :key="key" v-show="activeTab === key" class="mt-3 space-y-2">
-          <div class="relative">
-            <pre class="bg-muted p-4 rounded-lg overflow-x-auto text-sm whitespace-pre-wrap break-all"><code>{{ host && port ? generator(host, port) : 'Enter host and port to generate payload' }}</code></pre>
-            <button
-              v-if="host && port"
-              @click="copyToClipboard(generator(host, port), key)"
-              class="absolute top-2 right-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
-            >
-              <Icon v-if="copied === key" icon="mdi:check" class="h-4 w-4 text-green-500" />
-              <Icon v-else icon="mdi:content-copy" class="h-4 w-4" />
-            </button>
-          </div>
-        </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-2">
+        <label for="host" class="text-sm text-main">Host/IP</label>
+        <input id="host" v-model="host" type="text" placeholder="10.10.10.10" class="input" />
       </div>
+      <div class="space-y-2">
+        <label for="port" class="text-sm text-main">Port</label>
+        <input id="port" v-model="port" type="text" placeholder="4444" class="input" />
+      </div>
+    </div>
+
+    <div class="flex gap-2 border-b border-neutral-700/50 pb-2">
+      <button
+        v-for="key in Object.keys(shells)"
+        :key="key"
+        @click="activeTab = key"
+        :class="[
+          'px-3 py-1.5 text-sm rd-1 transition-all duration-200 cursor-pointer decoration-none border-none',
+          activeTab === key
+            ? 'text-link op-100 bg-neutral-700/30'
+            : 'text-link op-60 hover:op-100'
+        ]"
+      >
+        {{ key === 'bash' ? 'Bash' : key.toUpperCase() }}
+      </button>
+    </div>
+
+    <div v-for="(generator, key) in shells" :key="key" v-show="activeTab === key" class="relative">
+      <pre class="bg-hex-161b22 rd-1 p-4 text-sm font-mono whitespace-pre-wrap break-all overflow-x-auto"><code>{{ host && port ? generator(host, port) : 'Enter host and port to generate payload' }}</code></pre>
+      <button
+        v-if="host && port"
+        @click="copyToClipboard(generator(host, port), key)"
+        class="absolute top-2 right-2 btn-ghost h-7 w-7 p-0"
+      >
+        <i v-if="copied === key" class="i-mdi-check text-green-500" />
+        <i v-else class="i-mdi-content-copy" />
+      </button>
     </div>
   </div>
 </template>

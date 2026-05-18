@@ -17,12 +17,12 @@ No test, lint, typecheck, or formatter scripts exist. No ESLint, Prettier, or te
 
 - **Astro 6** static site with **Vue 3** interactive islands via `@astrojs/vue`. Pages live in `src/pages/*.astro`, components in `src/components/*.vue`.
 - **Routing**: `/` → redirect to `/reverse-shell`. Three pages: `/reverse-shell`, `/url-injection`, `/base64`.
-- **Sidebar** (`SidebarLayout.vue`) wraps every page. To add a page, create the `.astro` route and add a nav item to `SidebarLayout`.
+- **Header** — no sidebars, top nav generated in `Layout.astro`. To add a page, create the `.astro` route and add a nav item to the header nav in `Layout.astro`.
 - **UnoCSS** via `@unocss/astro` (configured in `uno.config.ts`). Dark mode enforced globally (`<html class="dark">`), no toggle.
-- Custom UI (no framework like ShadCN). Copy button, tabs, and card-like containers are hand-rolled UnoCSS.
+- Custom UI (no framework like ShadCN). Cards, copy buttons, tabs, and inputs are hand-rolled UnoCSS.
 - **Path alias**: `@/*` maps to `./src/*` (works in both `.astro` and `.vue`).
 - **Package manager**: Bun.
-- **Icons**: `@iconify/vue` with `<Icon icon="mdi:..." />`.
+- **Icons**: UnoCSS preset-icons with `i-mdi-*` class syntax (e.g. `<i class="i-mdi-console" />`).
 
 ## Conventions
 
@@ -30,3 +30,4 @@ No test, lint, typecheck, or formatter scripts exist. No ESLint, Prettier, or te
 - Payload data lives in `src/lib/payloads.ts` to avoid Vue SFC compiler issues with HTML-like strings.
 - Copy-to-clipboard uses `navigator.clipboard.writeText()` directly (no toast library).
 - Astro frontmatter blocks use standard Astro patterns.
+- Shortcuts defined in `uno.config.ts`: `bg-main` (`#0d1117`), `text-main` (`#bbbbbb`), `text-link` (`#ffffff`), `btn-primary`, `btn-ghost`, `card`, `input`.
