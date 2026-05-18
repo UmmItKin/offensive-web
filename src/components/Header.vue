@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 
 const navItems = [
-  { href: '/reverse-shell', title: 'Reverse Shell' },
+  { href: '/', title: 'Reverse Shell' },
   { href: '/url-injection', title: 'URL Injection' },
   { href: '/base64', title: 'Base64' },
 ]
@@ -15,7 +15,7 @@ const path = ref(props.currentPath)
 const isDrawerOpen = ref(false)
 
 function isActive(href: string) {
-  return path.value === href || (href === '/reverse-shell' && path.value === '/')
+  return path.value === href
 }
 
 function toggleDrawer() {
