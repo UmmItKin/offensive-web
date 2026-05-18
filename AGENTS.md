@@ -11,9 +11,11 @@
 
 No test, lint, typecheck, or formatter scripts exist. No ESLint, Prettier, or testing framework is configured.
 
+**Note**: `bun dev` uses `NODE_OPTIONS='--no-deprecation'` to suppress the Node 26 `DEP0205` `module.register()` warning emitted by Vite. This is harmless and will be removed once Vite upstream fixes it.
+
 ## Architecture
 
-- **Astro 5** static site with **React 19** interactive islands. Pages live in `src/pages/*.astro`, components in `src/components/`.
+- **Astro 6** static site with **React 19** interactive islands. Pages live in `src/pages/*.astro`, components in `src/components/`.
 - **Routing**: `/` → redirect to `/reverse-shell`. Three pages: `/reverse-shell`, `/url-injection`, `/base64`.
 - **Sidebar** (`SidebarLayout.tsx`) wraps every page. To add a page, create the `.astro` route and add a nav item to `SidebarLayout`.
 - **Tailwind CSS v4** via `@tailwindcss/vite` plugin (no `tailwind.config.*`). Dark mode enforced globally (`<html class="dark">`), no toggle.
