@@ -15,17 +15,18 @@ No test, lint, typecheck, or formatter scripts exist. No ESLint, Prettier, or te
 
 ## Architecture
 
-- **Astro 6** static site with **React 19** interactive islands. Pages live in `src/pages/*.astro`, components in `src/components/`.
+- **Astro 6** static site with **Vue 3** interactive islands via `@astrojs/vue`. Pages live in `src/pages/*.astro`, components in `src/components/*.vue`.
 - **Routing**: `/` → redirect to `/reverse-shell`. Three pages: `/reverse-shell`, `/url-injection`, `/base64`.
-- **Sidebar** (`SidebarLayout.tsx`) wraps every page. To add a page, create the `.astro` route and add a nav item to `SidebarLayout`.
+- **Sidebar** (`SidebarLayout.vue`) wraps every page. To add a page, create the `.astro` route and add a nav item to `SidebarLayout`.
 - **Tailwind CSS v4** via `@tailwindcss/vite` plugin (no `tailwind.config.*`). Dark mode enforced globally (`<html class="dark">`), no toggle.
-- **ShadCN UI** (new-york style, RSC off). Components in `src/components/ui/`. Config in `components.json`.
-- **Path alias**: `@/*` maps to `./src/*` (works in both `.astro` and `.tsx`).
+- Custom UI (no framework like ShadCN). Copy button, tabs, and card-like containers are hand-rolled Tailwind.
+- **Path alias**: `@/*` maps to `./src/*` (works in both `.astro` and `.vue`).
 - **Package manager**: Bun.
+- **Icons**: `@iconify/vue` with `<Icon icon="mdi:..." />`.
 
 ## Conventions
 
-- New ShadCN components: `bunx shadcn@latest add <component>`.
-- Icons: prefer `@iconify/react` (Iconify) with `icon={}` prop; Lucide also available.
-- Astro frontmatter blocks use standard Astro patterns (no special framework config).
-- `sonner` for toast notifications.
+- Vue 3 SFCs with `<script setup lang="ts">`. No Options API.
+- Payload data lives in `src/lib/payloads.ts` to avoid Vue SFC compiler issues with HTML-like strings.
+- Copy-to-clipboard uses `navigator.clipboard.writeText()` directly (no toast library).
+- Astro frontmatter blocks use standard Astro patterns.

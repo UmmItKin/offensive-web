@@ -1,9 +1,8 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import { SidebarLayout } from '@/components/SidebarLayout';
+import SidebarLayout from '@/components/SidebarLayout.vue';
 import Footer from '@/components/Footer.astro';
 import '@/styles/global.css';
-import 'sonner/dist/styles.css';
 
 interface Props {
 	title: string;
@@ -11,11 +10,7 @@ interface Props {
 
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
-
-// Default to open for SSG
-const defaultOpen = true;
 ---
-
 
 <!doctype html>
 <html lang="en" class="dark">
@@ -29,7 +24,7 @@ const defaultOpen = true;
 		<ClientRouter />
 	</head>
 	<body class="bg-background text-foreground">
-		<SidebarLayout client:load currentPath={currentPath} defaultOpen={defaultOpen}>
+		<SidebarLayout client:load currentPath={currentPath} defaultOpen={true}>
 			<div class="flex flex-col min-h-[calc(100vh-4rem)]">
 				<div class="flex-1">
 					<slot />
