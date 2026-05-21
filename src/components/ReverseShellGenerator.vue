@@ -42,7 +42,7 @@ async function copyToClipboard(text: string, id: string) {
       <p class="text-sm text-main op-70">Generate reverse shell payloads for various languages</p>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid sm:grid-cols-2 gap-4">
       <div class="space-y-2">
         <label for="host" class="text-sm text-main">Host/IP</label>
         <input id="host" v-model="host" type="text" placeholder="10.10.10.10" class="input" />

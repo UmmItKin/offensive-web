@@ -20,7 +20,7 @@ export default defineConfig({
     'btn-primary': 'btn bg-neutral-500/15 hover:bg-neutral-500/25 text-link',
     'btn-ghost': 'btn text-main op-70 hover:op-100 hover:bg-neutral-500/15',
     'card': 'rd-2 bg-hex-161b22',
-    'input': 'w-full h-10 px-3 py-2 rd-1 border border-neutral-700 bg-transparent text-sm text-link placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors duration-200 font-mono',
+    'input': 'w-full h-10 px-3 py-2 rd-1 border border-neutral-700 bg-transparent text-sm text-link placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors duration-200 font-mono box-border',
   },
   presets: [
     presetWind3(),

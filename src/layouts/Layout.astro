@@ -23,11 +23,11 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body class="bg-main text-main min-h-screen font-sans relative bg-dot flex flex-col">
+  <body class="bg-main text-main min-h-screen font-sans relative bg-dot flex flex-col overflow-x-hidden">
     <Header client:load currentPath={currentPath} />
     <main
       id="main-content"
-      class="grow w-full max-w-3xl mx-auto pt-10 pb-16 px-6 relative"
+      class="grow w-full max-w-3xl mx-auto pt-10 pb-16 px-6 relative overflow-x-hidden"
       transition:animate={fade({ duration: '0.3s' })}
     >
       <slot />
