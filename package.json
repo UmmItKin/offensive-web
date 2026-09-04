@@ -12,6 +12,7 @@
     "vue": "^3.5.42"
   },
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
     "dev": "NODE_OPTIONS='--no-deprecation' astro dev",
     "build": "NODE_OPTIONS='--no-deprecation' astro build",
     "preview": "astro preview",

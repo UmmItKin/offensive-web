@@ -13,7 +13,7 @@
 
 No test, lint, typecheck, or formatter scripts exist. Do not create them unless asked.
 
-Pre-commit hook: `.githooks/pre-commit` runs `bun run build` and aborts the commit if it fails. Enable once per clone with `git config core.hooksPath .githooks`.
+Pre-commit hook: `.githooks/pre-commit` runs `bun run build` and aborts the commit if it fails. Auto-enabled by the `prepare` script on `bun install` (`git config core.hooksPath .githooks`).
 
 ## Stack
 
