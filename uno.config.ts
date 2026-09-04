@@ -45,15 +45,4 @@ export default defineConfig({
     transformerDirectives(),
     transformerVariantGroup(),
   ],
-  safelist: [
-    'i-mdi-console',
-    'i-mdi-web',
-    'i-mdi-code-string',
-    'i-mdi-content-copy',
-    'i-mdi-check',
-    'i-mdi-menu',
-    'i-mdi-menu-open',
-    'i-mdi-close',
-    'i-mdi-github',
-  ],
 })
