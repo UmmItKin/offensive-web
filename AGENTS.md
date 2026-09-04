@@ -13,6 +13,8 @@
 
 No test, lint, typecheck, or formatter scripts exist. Do not create them unless asked.
 
+Pre-commit hook: `.githooks/pre-commit` runs `bun run build` and aborts the commit if it fails. Enable once per clone with `git config core.hooksPath .githooks`.
+
 ## Stack
 
 - **Astro 7** (static site) + **Vue 3** (interactive islands via `@astrojs/vue`)
