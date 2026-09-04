@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "dependencies": {
     "@astrojs/vue": "7.0.1",
-    "@fontsource/dm-mono": "^5.2.7",
-    "@fontsource/inter": "^5.2.8",
-    "@iconify/json": "^2.2.496",
-    "@unocss/astro": "^66.7.4",
+    "@fontsource/dm-mono": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@iconify/json": "^2.2.525",
+    "@unocss/astro": "^66.10.0",
     "astro": "7.0.6",
-    "unocss": "^66.7.4",
-    "vue": "^3.5.39"
+    "unocss": "^66.10.0",
+    "vue": "^3.5.42"
   },
   "scripts": {
     "dev": "NODE_OPTIONS='--no-deprecation' astro dev",
